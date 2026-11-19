@@ -1,0 +1,90 @@
+$ centwise split 100.00 3
+USD 100.00 split · 3 part(s) · scale 2
+
+  1         33.34  (3334 minor)
+  2         33.33  (3333 minor)
+  3         33.33  (3333 minor)
+
+  sum      100.00  (exact)
+[exit code: 0]
+
+------------------------------------------------------------------------------
+
+$ centwise allocate 250.00 --weights 2,3,5
+USD 250.00 allocation · 3 part(s) · scale 2
+
+  1         50.00  (5000 minor)
+  2         75.00  (7500 minor)
+  3        125.00  (12500 minor)
+
+  sum      250.00  (exact)
+[exit code: 0]
+
+------------------------------------------------------------------------------
+
+$ centwise split 1000 3 --currency JPY
+JPY 1000 split · 3 part(s) · scale 0
+
+  1           334  (334 minor)
+  2           333  (333 minor)
+  3           333  (333 minor)
+
+  sum        1000  (exact)
+[exit code: 0]
+
+------------------------------------------------------------------------------
+
+$ centwise split 1.000 3 --currency KWD
+KWD 1.000 split · 3 part(s) · scale 3
+
+  1         0.334  (334 minor)
+  2         0.333  (333 minor)
+  3         0.333  (333 minor)
+
+  sum       1.000  (exact)
+[exit code: 0]
+
+------------------------------------------------------------------------------
+
+$ centwise split 100.00 3 --json
+{
+  "label": "split",
+  "currency": "USD",
+  "scale": 2,
+  "total": "100.00",
+  "total_minor": 10000,
+  "weights": [
+    "1",
+    "1",
+    "1"
+  ],
+  "parts": [
+    {
+      "index": 1,
+      "amount": "33.34",
+      "minor": 3334
+    },
+    {
+      "index": 2,
+      "amount": "33.33",
+      "minor": 3333
+    },
+    {
+      "index": 3,
+      "amount": "33.33",
+      "minor": 3333
+    }
+  ],
+  "sum": "100.00",
+  "exact": true
+}
+[exit code: 0]
+
+------------------------------------------------------------------------------
+
+library example
+  subtotal        USD 199.99
+  tax at 8.25%    USD 16.50
+  total           USD 216.49
+  three-way split USD 72.17, USD 72.16, USD 72.16
+  shares sum      216.49 (exact)

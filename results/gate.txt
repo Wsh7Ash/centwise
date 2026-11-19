@@ -1,0 +1,6 @@
+split 100.00 by 3: exit code 0
+allocate 250.00 at 2:3:5: exit code 0
+split 1000 JPY by 3: exit code 0
+split 1.000 KWD by 3: exit code 0
+split 100.00 by 3 as JSON: exit code 0
+exactness sweep: 164/164 cases exact

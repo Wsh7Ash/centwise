@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Test
+        run: PYTHONPATH=src python -m pytest tests -v
+      - name: Demo runs and the sweep is exact
+        run: python scripts/demo.py
+      - name: Demo recorded the expected exits and a clean sweep
+        run: |
+          python - <<'PY'
+          import pathlib
+          text = pathlib.Path("results/gate.txt").read_text()
+          assert "164/164 cases exact" in text, text
+          assert "exit code 0" in text and "exit code 1" not in text, text
+          PY
+      - name: Invoice example asserts its own total
+        run: PYTHONPATH=src python examples/invoice.py
